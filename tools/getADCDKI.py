@@ -19,6 +19,8 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of the FreeBSD Project.
 
+# @clalonsogarcia added global var of maximum possible ADC, from water diffusivity of 3.2 um2/s at 40 deg C
+
 ### Load useful modules
 import argparse, os, sys
 import multiprocessing
@@ -26,6 +28,7 @@ import numpy as np
 from scipy.optimize import minimize
 import nibabel as nib
 
+ADCMAX = 3.2 # um2/s
 
 def signal_gen(mri_seq,fit_dki,tissue_par):
 	''' Generate the signal for a diffusion experiment with variable TE according to ADC of DKI
@@ -150,7 +153,7 @@ def GridSearch(mri_seq,fit_dki,meas):
 	
 	###	###	### CONTINUE FROM HERE
 	### Prepare grid for grid search
-	adc_grid = 0.001*np.logspace(np.log(0.1),np.log(32),15,base=np.exp(1.0))  # Grid of ADC values in mm^2/s
+	adc_grid = 0.001*np.logspace(np.log(0.1),np.log(ADCMAX),15,base=np.exp(1.0))  # Grid of ADC values in mm^2/s
 	adc_grid[0] = 0.0
 	s0_grid = np.linspace(0.0,4*np.max(meas),num=15)    # Grid of S0 values
 	k_grid = np.linspace(-4.0,9.0,num=15)    # Grid of kurtosis values
@@ -318,7 +321,8 @@ def FitSlice(data):
 								# Check whether the solution is plausible
 								if adc_voxel<0:
 									s0_voxel = np.mean(sig_voxel)
-									adc_voxel = 0.001*32.0    # Maximum possible ADC in mm2/s
+									# adc_voxel = 0.001*ADCMAX#32    # Maximum possible ADC in mm2/s
+									adc_voxel = 1e-6 # instead of max, min value - output SSE error still good
 									exit_voxel = -1
 								if s0_voxel<0:
 									s0_voxel = 0.0
@@ -376,7 +380,8 @@ def FitSlice(data):
 								# Check whether the solution is plausible: if not, declare fitting failed
 								if adc_voxel<0:
 									s0_voxel = np.mean(sig_voxel)
-									adc_voxel = 0.001*32.0    # We fix the maximum possible value
+									# adc_voxel = 0.001*ADCMAX#32.0    # We fix the maximum possible value
+									adc_voxel = 1e-6
 									k_voxel = 0.0
 									exit_voxel = -1
 								if s0_voxel<0:
@@ -413,9 +418,11 @@ def FitSlice(data):
 							
 							# Minimise the objective function numerically
 							if(fit_dki==1):
-								param_bound = ((0,2*s0_voxel),(0,0.001*32),(-4.0,9.0),)  # Range for parameters						
+								# param_bound = ((0,2*s0_voxel),(0,0.001*32),(-4.0,9.0),)  # Range for parameters
+								param_bound = ((0,2*s0_voxel),(0,0.001*ADCMAX),(-4.0,9.0),)
 							else:
-								param_bound = ((0,2*s0_voxel),(0,0.001*32),)  # Range for parameters						
+								# param_bound = ((0,2*s0_voxel),(0,0.001*32),)  # Range for parameters
+								param_bound = ((0,2*s0_voxel),(0,0.001*ADCMAX),)
 							modelfit = minimize(Fobj, param_init, method='L-BFGS-B', args=tuple([fit_dki,seq_value,sig_voxel]), bounds=param_bound)
 							fit_exit = modelfit.success
 							fobj_fit = modelfit.fun
