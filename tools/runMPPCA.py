@@ -376,7 +376,7 @@ if __name__ == "__main__":
 	rootoutstr = args.rootout
 	kernelstr = args.kernel
 	try:
-		riceflag = np.bool( int(args.riceunbias) )
+		riceflag = bool( int(args.riceunbias) )
 	except:
 		riceflag = True
 	try:
