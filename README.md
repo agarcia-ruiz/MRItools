@@ -13,19 +13,19 @@ MRItools is a collection of utilities written in Python 3, Matlab and Bash shell
 
 # Dependencies
 To use tools written in python you need a Python 3 distribution such as [Anaconda](http://www.anaconda.com/distribution). Additionally, you need the following third party modules/packages:
-* [DiPy](http://dipy.org)
-* [NumPy](http://numpy.org)
-* [Nibabel](http://nipy.org/nibabel)
-* [SciPy](http://www.scipy.org)
-* [Nipype](http://nipype.readthedocs.io/en/latest)
-* [Scikit-image](http://scikit-image.org)
-* [tqdm](https://github.com/tqdm/tqdm)
-* [joblib](https://joblib.readthedocs.io)
-* [MP-PCA](https://github.com/NYU-DiffusionMRI/mppca_denoise/blob/master/mpdenoise.py)
-* [Gibbs unringing](https://github.com/RafaelNH/gibbs-removal/blob/master/gibbs_removal.py)
+* [DiPy](http://dipy.org) (to use [_fitdki.py_](https://github.com/fragrussu/MRItools/blob/master/tools/fitdki.py))
+* [NumPy](http://numpy.org) (last successful test with version 1.26.4)
+* [Nibabel](http://nipy.org/nibabel) (last successful test with version 5.3.2)
+* [SciPy](http://www.scipy.org) (last successful test with version 1.13.1)
+* [Nipype](http://nipype.readthedocs.io/en/latest) (to use [_iccvoxelwise.py_](https://github.com/fragrussu/MRItools/blob/master/tools/iccvoxelwise.py))
+* [Scikit-image](http://scikit-image.org) (last successful test with version 1.5.2)
+* [tqdm](https://github.com/tqdm/tqdm) (last successful test with version 1.13.1)
+* [joblib](https://joblib.readthedocs.io) (last successful test with version 4.66.5)
+* [MP-PCA](https://github.com/NYU-DiffusionMRI/mppca_denoise/blob/master/mpdenoise.py) (MP-PCA script freely available from NYU GitHub)
+* [Gibbs unringing](https://github.com/RafaelNH/gibbs-removal/blob/master/gibbs_removal.py) (Gibbs unringing script from Dr Neto Henriques GitHub)
 
 To use tools written in Matlab, you need the following toolboxes/functions:
-* [MP-PCA](https://github.com/NYU-DiffusionMRI/mppca_denoise/blob/master/MPdenoising.m)
+* [MP-PCA](https://github.com/NYU-DiffusionMRI/mppca_denoise/blob/master/MPdenoising.m) (MP-PCA script freely available from NYU GitHub)
 
 To use tools written in Bash, you need the following packages:
 * [FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/)
